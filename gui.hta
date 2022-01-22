@@ -1,0 +1,59 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <style>
+	body{
+		background: white;
+		color: black;
+		cursor: default;
+		padding: 2px;
+		font: 18px Arial;
+	}
+  </style>
+  <title>FileCrypt0r</title>
+  <hta:application 
+  id=FileCrypt0r
+  applicationName=FileCrypt0r
+  caption=yes
+  innerBorder=yes
+  selection=no
+  scroll=no
+  contextmenu=no
+  navigable=yes />
+  <script src="wscript.js"></script>
+  <script>resize(500, 400)</script>
+</head>
+<body>
+	<h2>FileCrypt0r</h2>
+	<div style="color:red">Внимание! Файл должен быть в кодировке UTF-16 LE!</div>
+	Имя файла: <input type="text" size=33 id="filename"><br>
+	<button onclick="encrypt()">Зашифровать</button>
+	<button style="float:right" onclick="decrypt()">Расшифровать</button><br><br>
+	<button onclick="getkey()">Получить ключ</button>
+	<script>
+		var shell = WScript.CreateObject("WScript.Shell");
+		var fso = WScript.CreateObject("Scripting.FileSystemObject");
+		
+		function encrypt(){
+			if(fso.FileExists("encrypted." + filename.value)){
+				fso.DeleteFile("encrypted." + filename.value);
+			}
+			
+			shell.Run("encrypt.js " + filename.value);
+		}
+		
+		function decrypt(){
+			if(fso.FileExists(filename.value.replace("encrypted.", ""))){
+				fso.DeleteFile(filename.value.replace("encrypted.", ""));
+			}
+			
+			shell.Run("decrypt.js " + filename.value);
+		}
+		
+		function getkey(){
+			shell.Run("getkey.js");
+		}
+	</script>
+</body>
+</html>
